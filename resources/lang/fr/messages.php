@@ -13,7 +13,6 @@ return [
     'dashboard' => 'Tableau de bord',
     'admin' => 'Admin',
     'join_now' => 'Rejoignez-nous',
-    'test_login' => '🔑 Test Connexion',
     'language' => 'Langue',
 
     // Common actions

@@ -15,9 +15,6 @@ Route::get('/packages', [HomeController::class, 'packages'])->name('packages');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::post('/register', [HomeController::class, 'registerSubmit'])->name('register.submit');
-Route::get('/test-credentials', function () {
-    return view('test-credentials');
-})->name('test-credentials');
 
 // Language switching route
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');

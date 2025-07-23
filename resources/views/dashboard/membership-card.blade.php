@@ -17,21 +17,43 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100% !important;
+                width: 320px !important;
+                height: 200px !important;
+                min-width: 320px !important;
+                min-height: 200px !important;
+                max-width: 320px !important;
+                max-height: 200px !important;
             }
             .no-print {
                 display: none !important;
             }
         }
-        
         .membership-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            width: 400px;
-            height: 250px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 320px;
+            min-width: 0;
+            height: 200px;
+            max-width: 100vw;
+            max-height: 100vw;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.10);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+        }
+        @media (max-width: 700px) {
+            .membership-card {
+                width: 100% !important;
+                min-width: 0 !important;
+                height: auto !important;
+                padding: 0.25rem !important;
+                max-width: 100vw !important;
+            }
+        }
+        .membership-card * {
+            box-sizing: border-box;
         }
         
         .membership-card::before {
@@ -68,23 +90,23 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
     
     <!-- Action Buttons -->
-    <div class="no-print fixed top-4 right-4 space-x-2 z-50">
-        <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+    <div class="no-print w-full flex flex-col sm:flex-row gap-2 mb-6 items-center justify-center">
+        <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 w-full sm:w-auto">
             <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
             </svg>
             Print Card
         </button>
-        <button onclick="downloadCard()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 transition duration-300">
+        <button onclick="downloadCard()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 transition duration-300 w-full sm:w-auto">
             <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
             Download PNG
         </button>
-        <a href="{{ route('dashboard') }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 inline-block">
+        <a href="{{ route('dashboard') }}" class="bg-gray-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 inline-block w-full sm:w-auto">
             <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -92,103 +114,102 @@
         </a>
     </div>
 
-    <!-- Membership Card Container -->
-    <div class="membership-card mx-auto relative" id="membership-card">
-        <!-- Animated Background Pattern -->
-        <div class="absolute inset-0">
-            <div class="card-shine absolute inset-0"></div>
-        </div>
-        
-        <!-- Card Content -->
-        <div class="relative z-10 h-full flex flex-col">
-            <!-- Header -->
-            <div class="flex justify-between items-start p-6 pb-2">
-                <div>
-                    <h1 class="text-white text-xl font-bold">FitLife Gym</h1>
-                    <p class="text-blue-100 text-sm">Membership Card</p>
+    <!-- Responsive Layout: Card above, info below on mobile; side by side on desktop -->
+    <div class="w-full flex flex-col lg:flex-row items-center justify-center gap-8 mt-8">
+        <!-- Membership Card Container -->
+        <div class="membership-card relative mb-6 lg:mb-0" id="membership-card" style="box-sizing: border-box;">
+            <!-- Animated Background Pattern -->
+            <div class="absolute inset-0">
+                <div class="card-shine absolute inset-0"></div>
+            </div>
+            
+            <!-- Card Content -->
+            <div class="relative z-10 h-full flex flex-col">
+                <!-- Header -->
+                <div class="flex justify-between items-start px-3 pt-3 pb-1">
+                    <div>
+                        <h1 class="text-white text-lg font-bold leading-tight">FitLife Gym</h1>
+                        <p class="text-blue-100 text-xs leading-tight">Membership Card</p>
+                    </div>
+                    <div class="qr-code">
+                        {!! QrCode::size(40)->generate(route('membership.verify', ['card' => $membership->card_number])) !!}
+                    </div>
                 </div>
-                <div class="qr-code">
-                    {!! QrCode::size(60)->generate(route('membership.verify', ['card' => $membership->card_number])) !!}
+                <!-- Member Info -->
+                <div class="flex-1 px-3 py-1">
+                    <div class="mb-2">
+                        <h2 class="text-white text-lg font-bold truncate leading-tight">{{ $user->name }}</h2>
+                        <p class="text-blue-200 text-xs break-words truncate leading-tight">{{ $user->email }}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] w-full">
+                        <div class="truncate">
+                            <p class="text-blue-200">{{ __('messages.card_number') }}</p>
+                            <p class="text-white font-mono font-bold break-words truncate">{{ $membership->card_number }}</p>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-blue-200">{{ __('messages.package') }}</p>
+                            <p class="text-white font-semibold break-words truncate">{{ $membership->package->name }}</p>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-blue-200">{{ __('messages.valid_from') }}</p>
+                            <p class="text-white break-words truncate">{{ $membership->start_date->format('M j, Y') }}</p>
+                        </div>
+                        <div class="truncate">
+                            <p class="text-blue-200">{{ __('messages.expires') }}</p>
+                            <p class="text-white break-words truncate">{{ $membership->end_date->format('M j, Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <div class="px-3 py-2 border-t border-white/20">
+                    <div class="flex justify-between items-center text-[11px]">
+                        <div class="text-blue-200">
+                            {{ __('messages.status') }}: <span class="text-white font-semibold">{{ strtoupper($membership->status) }}</span>
+                        </div>
+                        <div class="text-blue-200">
+                            {{ __('messages.member_id') }}: <span class="text-white font-mono">{{ str_pad($user->id, 6, '0', STR_PAD_LEFT) }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Member Info -->
-            <div class="flex-1 px-6 py-2">
-                <div class="mb-3">
-                    <h2 class="text-white text-2xl font-bold">{{ $user->name }}</h2>
-                    <p class="text-blue-200 text-sm">{{ $user->email }}</p>
+            <!-- Decorative Elements -->
+            <div class="absolute top-4 right-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+            <div class="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg"></div>
+        </div>
+        <!-- Card Information -->
+        <div class="no-print w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">{{ __('messages.card_information') }}</h3>
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{ __('messages.member_since') }}:</span>
+                    <span class="font-medium">{{ $membership->start_date->format('F Y') }}</span>
                 </div>
-                
-                                 <div class="grid grid-cols-2 gap-3 text-xs">
-                     <div>
-                         <p class="text-blue-200">{{ __('messages.card_number') }}</p>
-                         <p class="text-white font-mono font-bold text-sm">{{ $membership->card_number }}</p>
-                     </div>
-                     <div>
-                         <p class="text-blue-200">{{ __('messages.package') }}</p>
-                         <p class="text-white font-semibold text-sm">{{ $membership->package->name }}</p>
-                     </div>
-                     <div>
-                         <p class="text-blue-200">{{ __('messages.valid_from') }}</p>
-                         <p class="text-white text-xs">{{ $membership->start_date->format('M j, Y') }}</p>
-                     </div>
-                     <div>
-                         <p class="text-blue-200">{{ __('messages.expires') }}</p>
-                         <p class="text-white text-xs">{{ $membership->end_date->format('M j, Y') }}</p>
-                     </div>
-                 </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{ __('messages.membership_type') }}:</span>
+                    <span class="font-medium">{{ $membership->package->name }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{ __('messages.renewal_date') }}:</span>
+                    <span class="font-medium {{ $membership->end_date > now() ? 'text-green-600' : 'text-red-600' }}">
+                        {{ $membership->end_date->format('M d, Y') }}
+                    </span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{ __('messages.qr_code') }}:</span>
+                    <span class="font-medium text-blue-600">{{ __('messages.scan_for_verification') }}</span>
+                </div>
             </div>
             
-            <!-- Footer -->
-            <div class="px-6 py-4 border-t border-white/20">
-                <div class="flex justify-between items-center text-xs">
-                    <div class="text-blue-200">
-                        {{ __('messages.status') }}: <span class="text-white font-semibold">{{ strtoupper($membership->status) }}</span>
-                    </div>
-                    <div class="text-blue-200">
-                        {{ __('messages.member_id') }}: <span class="text-white font-mono">{{ str_pad($user->id, 6, '0', STR_PAD_LEFT) }}</span>
-                    </div>
-                </div>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <h4 class="font-semibold text-blue-900 mb-2">{{ __('messages.instructions') }}</h4>
+                <ul class="text-sm text-blue-800 space-y-1">
+                    <li>• {{ __('messages.present_this_card') }}</li>
+                    <li>• {{ __('messages.qr_code_scan') }}</li>
+                    <li>• {{ __('messages.keep_card_safe') }}</li>
+                    <li>• {{ __('messages.valid_when_active') }}</li>
+                </ul>
             </div>
-        </div>
-        
-        <!-- Decorative Elements -->
-        <div class="absolute top-4 right-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-        <div class="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full blur-lg"></div>
-    </div>
-
-    <!-- Card Information -->
-    <div class="no-print mt-8 max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-4">{{ __('messages.card_information') }}</h3>
-        <div class="space-y-3 text-sm">
-            <div class="flex justify-between">
-                <span class="text-gray-600">{{ __('messages.member_since') }}:</span>
-                <span class="font-medium">{{ $membership->start_date->format('F Y') }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-gray-600">{{ __('messages.membership_type') }}:</span>
-                <span class="font-medium">{{ $membership->package->name }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-gray-600">{{ __('messages.renewal_date') }}:</span>
-                <span class="font-medium {{ $membership->end_date > now() ? 'text-green-600' : 'text-red-600' }}">
-                    {{ $membership->end_date->format('M d, Y') }}
-                </span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-gray-600">{{ __('messages.qr_code') }}:</span>
-                <span class="font-medium text-blue-600">{{ __('messages.scan_for_verification') }}</span>
-            </div>
-        </div>
-        
-        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h4 class="font-semibold text-blue-900 mb-2">{{ __('messages.instructions') }}</h4>
-            <ul class="text-sm text-blue-800 space-y-1">
-                <li>• {{ __('messages.present_this_card') }}</li>
-                <li>• {{ __('messages.qr_code_scan') }}</li>
-                <li>• {{ __('messages.keep_card_safe') }}</li>
-                <li>• {{ __('messages.valid_when_active') }}</li>
-            </ul>
         </div>
     </div>
 

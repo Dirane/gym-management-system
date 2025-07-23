@@ -13,7 +13,6 @@ return [
     'dashboard' => 'Dashboard',
     'admin' => 'Admin',
     'join_now' => 'Join Now',
-    'test_login' => '🔑 Test Login',
     'language' => 'Language',
 
     // Common actions

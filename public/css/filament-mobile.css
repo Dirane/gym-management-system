@@ -1,0 +1,45 @@
+/* Filament Mobile Responsiveness Tweaks */
+
+/* Make tables horizontally scrollable on small screens */
+@media (max-width: 640px) {
+    .fi-ta-table, .filament-tables-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .fi-ta-table table, .filament-tables-table table {
+        min-width: 600px;
+    }
+    .fi-ta-table th, .fi-ta-table td,
+    .filament-tables-table th, .filament-tables-table td {
+        white-space: nowrap;
+    }
+    .fi-fo-form, .filament-forms-form {
+        padding: 1rem !important;
+    }
+    .fi-fo-field, .filament-forms-field {
+        margin-bottom: 1rem !important;
+    }
+    .fi-ta-pagination, .filament-tables-pagination {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* Make action buttons more touch-friendly */
+.filament-button, .fi-btn {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 1rem;
+}
+
+/* Reduce padding for table cells on mobile */
+@media (max-width: 640px) {
+    .fi-ta-table td, .fi-ta-table th,
+    .filament-tables-table td, .filament-tables-table th {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        font-size: 0.95rem;
+    }
+} 
